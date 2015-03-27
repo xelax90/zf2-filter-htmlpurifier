@@ -1,0 +1,22 @@
+{
+    "name": "xelax90/zf2-filter-htmlpurifier",
+    "description": "Requires HTMLPurifier and adds a filter class for InputFilter",
+    "require": {
+		"ezyang/htmlpurifier": "dev-master"
+    },
+    "license": "GPL-v2.0",
+    "authors": [
+        {
+            "name": "xelax90",
+            "email": "schurix@gmx.de",
+            "homepage": "https://github.com/xelax90",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "XelaxHTMLPurifier": "src"
+        },
+        "classmap" : ["Module.php"]
+    }
+}
