@@ -31,6 +31,7 @@ use HTMLPurifier_Config;
  */
 class HTMLPurifier implements FilterInterface
 {
+    protected $options = [];
     /**
      * The HTML Purifer object
      *
@@ -41,9 +42,16 @@ class HTMLPurifier implements FilterInterface
     /**
      * Initialise the HTML Purifier object.
      */
-    function __construct()
+    function __construct($options = [])
     {
+        $this->options = $options;
+        $purifierOptions = $this->options['purifier_options'] ?? [];
+
         $config = HTMLPurifier_Config::createDefault();
+        foreach ($purifierOptions as $key => $value) {
+            $config->set($key, $value);
+        }
+
         $this->purifier = new _HTMLPurifier($config);
     }
  
@@ -55,6 +63,12 @@ class HTMLPurifier implements FilterInterface
      */
     public function filter($value)
     {
-        return $this->purifier->purify($value);
+        $result = $this->purifier->purify($value);
+        $preventAmpEncoding = $this->options['HTML.PreventAmpEncoding'] ?? true;
+        if ($preventAmpEncoding) {
+            $result = str_replace('&amp;', '&', $result);
+        }
+
+        return $result;
     }
 }
